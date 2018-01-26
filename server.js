@@ -7,12 +7,7 @@ const jsonparser = bodyparser.json({ type: 'application/json' });
 const sharp = require('sharp');
 const app = express();
 
-const httpsOptions = {
-  key: fs.readFileSync('./certs/localhost.key'),
-  cert: fs.readFileSync('./certs/localhost.cert'),
-  requestCert: false,
-  rejectUnauthorized: false
-};
+
 
 const MIME_TYPES = {
   'jpg': 'image/jpeg',
@@ -54,6 +49,17 @@ app.get('/', (req, res) => {
   res.send('server');
 });
 
-const server = https.createServer(httpsOptions, app);
+let server;
+if (process.env.NODE_ENV === 'development') {
+  const httpsOptions = {
+    key: fs.readFileSync('./certs/localhost.key'),
+    cert: fs.readFileSync('./certs/localhost.cert'),
+    requestCert: false,
+    rejectUnauthorized: false
+  };
+  server = https.createServer(httpsOptions, app);
+} else {
+  server = app;
+}
 
 module.exports = server;
