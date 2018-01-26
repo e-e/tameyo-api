@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev PORT=8888 nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "cross-env NODE_ENV=development PORT=8888 nodemon index.js",
+    "test": "loadtest https://localhost:8888/api/base64 --rps 50 -c 10 -T \"application/json\" -p \"./test/post-data.json\" --insecure",
+    "test:loadtest": "loadtest https://localhost:8888/ --rps 50 -c 10 --insecure"
   },
   "author": "Eric Ellingson <ellingsonster@gmail.com> (http://eric.wtf/)",
   "license": "MIT",
@@ -17,6 +19,7 @@
   },
   "devDependencies": {
     "cross-env": "^5.1.3",
+    "loadtest": "^2.3.0",
     "nodemon": "^1.14.11"
   }
 }
