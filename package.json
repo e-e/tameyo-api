@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development PORT=8888 nodemon index.js",
-    "test": "loadtest https://localhost:8888/api/base64 --rps 50 -c 10 -T \"application/json\" -p \"./test/post-data.json\" --insecure",
-    "test:loadtest": "loadtest https://localhost:8888/ --rps 50 -c 10 --insecure"
+    "test:load": "loadtest https://localhost:8888/api/base64 --rps 50 -c 10 -T \"application/json\" -p \"./test/post-data.json\" --insecure"
   },
   "author": "Eric Ellingson <ellingsonster@gmail.com> (http://eric.wtf/)",
   "license": "MIT",
