@@ -13,7 +13,8 @@ SIZE = parseInt(SIZE, 10);
 const logger = (() => {
   if (process.env.NODE_ENV === 'development') {
     return (req, res, next) => {
-      console.log(`${req.method} ${req.url}`);
+      let src = req.body && req.body.src && req.body.src.length ? ` [${req.body.src}]` : '';
+      console.log(`${req.method} ${req.url}${src}`);
       next();
     };
   } else {
@@ -42,7 +43,7 @@ function isBase64(src) {
 }
 
 app.use(logger);
-app.post('/api/base64', jsonparser, async (req, res) => {
+app.post('/api/base64', [jsonparser, logger], async (req, res) => {
   const { src } = req.body;
   request.get(src, (err, _res, body) => {
     if (isBase64(src)) {
