@@ -7,6 +7,7 @@ const bodyparser = require('body-parser');
 const jsonparser = bodyparser.json({ type: 'application/json' });
 const sharp = require('sharp');
 const app = express();
+let SIZE = process.env.IMG_SIZE || 200;
 
 const logger = (() => {
   if (process.env.NODE_ENV === 'development') {
@@ -47,7 +48,7 @@ app.post('/api/base64', jsonparser, async (req, res) => {
       res.send({ base64: src })
     } else {
       sharp(body)
-        .resize(75)
+        .resize(SIZE)
         .toBuffer()
         .then(data => {
           res.send({ base64: `data:${mime(src)};base64,${data.toString('base64')}` });
