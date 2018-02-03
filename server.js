@@ -42,7 +42,6 @@ function isBase64(src) {
   return re.test(src.trim());
 }
 
-app.use(logger);
 app.post('/api/base64', [jsonparser, logger], async (req, res) => {
   const { src } = req.body;
   request.get(src, (err, _res, body) => {
