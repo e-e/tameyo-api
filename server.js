@@ -1,5 +1,6 @@
 const https = require('https');
 const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const request = require('request').defaults({ encoding: null });
 const bodyparser = require('body-parser');
@@ -52,8 +53,8 @@ app.get('/', (req, res) => {
 let server;
 if (process.env.NODE_ENV === 'development') {
   const httpsOptions = {
-    key: fs.readFileSync('./certs/localhost.key'),
-    cert: fs.readFileSync('./certs/localhost.cert'),
+    key: fs.readFileSync(path.join(__dirname, './certs/localhost.key')),
+    cert: fs.readFileSync(path.join(__dirname, './certs/localhost.cert')),
     requestCert: false,
     rejectUnauthorized: false
   };
