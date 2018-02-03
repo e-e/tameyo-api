@@ -8,7 +8,15 @@ const jsonparser = bodyparser.json({ type: 'application/json' });
 const sharp = require('sharp');
 const app = express();
 
-
+const logger = (() => {
+  if (process.env.NODE_ENV === 'development') {
+    return (req, res, next) => {
+      console.log(`${req.method} ${req.url}`);
+    };
+  } else {
+    return (req, res, next) => { next(); };
+  }
+})();
 
 const MIME_TYPES = {
   'jpg': 'image/jpeg',
@@ -30,6 +38,7 @@ function isBase64(src) {
   return re.test(src.trim());
 }
 
+app.use(logger);
 app.post('/api/base64', jsonparser, async (req, res) => {
   const { src } = req.body;
   request.get(src, (err, _res, body) => {
