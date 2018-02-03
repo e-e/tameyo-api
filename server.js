@@ -12,6 +12,7 @@ const logger = (() => {
   if (process.env.NODE_ENV === 'development') {
     return (req, res, next) => {
       console.log(`${req.method} ${req.url}`);
+      next();
     };
   } else {
     return (req, res, next) => { next(); };
