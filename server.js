@@ -8,6 +8,7 @@ const jsonparser = bodyparser.json({ type: 'application/json' });
 const sharp = require('sharp');
 const app = express();
 let SIZE = process.env.IMG_SIZE || 200;
+SIZE = parseInt(SIZE, 10);
 
 const logger = (() => {
   if (process.env.NODE_ENV === 'development') {
