@@ -59,7 +59,7 @@ app.post('/api/base64', [jsonparser, logger], async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('server');
+  res.send(process.env.HEROKU_APP_NAME || 'server');
 });
 
 let server;
@@ -73,6 +73,13 @@ if (process.env.NODE_ENV === 'development') {
   server = https.createServer(httpsOptions, app);
 } else {
   server = app;
+}
+
+// keep heroku server awake
+if (process.env.HEROKU_APP_NAME) {
+  setInterval(function () {
+    https.get(`https://${HEROKU_APP_NAME}.herokuapp.com`);
+  }, 300000); // every 5 minutes
 }
 
 module.exports = server;
