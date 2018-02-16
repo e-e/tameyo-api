@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const request = require('request').defaults({ encoding: null });
+const favicon = require('serve-favicon');
 const bodyparser = require('body-parser');
 const jsonparser = bodyparser.json({ type: 'application/json' });
 const sharp = require('sharp');
@@ -41,6 +42,8 @@ function isBase64(src) {
   const re = new RegExp('^data\\:');
   return re.test(src.trim());
 }
+
+app.use(favicon(path.join(__dirname, './public', 'favicon.ico')));
 
 app.post('/api/base64', [jsonparser, logger], async (req, res) => {
   const { src } = req.body;
